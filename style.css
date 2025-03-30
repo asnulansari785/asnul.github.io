@@ -1,18 +1,61 @@
-/* style.css */
+/* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: auto;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for the Profile */
+.container {
+    max-width: 600px;
+    margin: 40px auto;
     padding: 20px;
-    background-color: #f8f8f8;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
-h1, h2 {
-    color: #333;
+
+/* Headings */
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
 }
+
+/* Links */
 a {
-    color: #007bff;
+    color: #3498db;
     text-decoration: none;
+    font-weight: 500;
 }
+
 a:hover {
     text-decoration: underline;
+}
+
+/* Section Titles */
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+/* Paragraphs */
+p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* List Styles */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 5px 0;
 }
