@@ -1,0 +1,18 @@
+backend:
+  name: github
+  repo: asnulansari785/asnul.github.io
+  branch: main
+  client_id: Ov23iiqQd8bksUUOEzSc
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "products"
+    label: "Products"
+    file: "content/products.yml"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Price", name: "price", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Category", name: "category", widget: "select", options: ["Cap", "Attar"] }
