@@ -126,7 +126,7 @@ fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/She
 
   let output = "";
 
-  data.forEach(item => {
+  data.slice(1).forEach(item => {   // 👈 First row skip
     output += `
       <tr>
         <td>${item["A Column"]}</td>
@@ -140,6 +140,6 @@ fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/She
 
 });
 </script>
-  
+
 </body>
 </html>
