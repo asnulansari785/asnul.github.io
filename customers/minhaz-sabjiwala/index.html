@@ -118,28 +118,28 @@ body{
 <div class="footer">
   <p>Daily fresh sabzi • Limited stock</p>
 </div>
-
+  
 <script>
 fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/Sheet1")
 .then(res => res.json())
 .then(data => {
-  let output = "<table>";
 
-data.forEach(item => {
-  output += `
-    <tr>
-      <td>${item["A Column"]}</td>
-      <td>₹${item["B Column"]}</td>
-      <td>${item["C Column"]}</td>
-    </tr>
-  `;
-});
+  let output = "";
 
-output += "</table>";
-document.getElementById("rateList").innerHTML = output;
+  data.forEach(item => {
+    output += `
+      <tr>
+        <td>${item["A Column"]}</td>
+        <td>₹${item["B Column"]}</td>
+        <td>${item["C Column"]}</td>
+      </tr>
+    `;
+  });
+
+  document.querySelector("#rateTable tbody").innerHTML = output;
 
 });
 </script>
-
+  
 </body>
 </html>
