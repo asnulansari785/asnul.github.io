@@ -124,73 +124,101 @@ Total: ₹<span id="totalAmount">0</span>
 </div>
   
 <script>
-let sabziData = [];
+
+let products = [];
 
 fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/Sheet1")
 .then(res => res.json())
 .then(data => {
 
-  sabziData = data;
-  let tbody = "";
+  let tbody = document.querySelector("#rateTable tbody");
+  tbody.innerHTML = "";
 
-  data.forEach((item, index) => {
+  // Skip first row (header)
+  products = data.slice(1);
 
-    let price = parseFloat(item["B Column"]) || 0;
+  products.forEach((item, index) => {
 
-    tbody += `
+    let row = `
       <tr>
         <td>${item["A Column"]}</td>
-        <td>₹${price}</td>
+        <td>₹${item["B Column"]}</td>
         <td>${item["C Column"]}</td>
         <td>
-          <input type="number" min="0" value="0"
-            onchange="calculateTotal()" 
-            id="qty-${index}" 
-            data-price="${price}" 
-            style="width:60px;">
+          <input type="number" 
+                 min="0" 
+                 value="0"
+                 onchange="calculateTotal()"
+                 data-index="${index}"
+                 style="width:60px; padding:4px;">
         </td>
       </tr>
     `;
+
+    tbody.innerHTML += row;
   });
 
-  document.querySelector("#rateTable tbody").innerHTML = tbody;
 });
 
 function calculateTotal() {
-  let total = 0;
 
-  sabziData.forEach((item, index) => {
-    let qty = parseFloat(document.getElementById(`qty-${index}`).value) || 0;
-    let price = parseFloat(item["B Column"]) || 0;
+  let total = 0;
+  let qtyInputs = document.querySelectorAll("input[type='number']");
+
+  qtyInputs.forEach(input => {
+
+    let qty = parseInt(input.value) || 0;
+    let index = input.getAttribute("data-index");
+
+    let price = parseFloat(products[index]["B Column"]) || 0;
+
     total += qty * price;
+
   });
 
   document.getElementById("totalAmount").innerText = total;
+
 }
 
 function sendOrder() {
 
-  let message = "Assalamu Alaikum, mujhe ye sabzi chahiye:%0A";
+  let message = "🛒 Order Details:\n\n";
+  let qtyInputs = document.querySelectorAll("input[type='number']");
   let total = 0;
 
-  sabziData.forEach((item, index) => {
+  qtyInputs.forEach(input => {
 
-    let qty = parseFloat(document.getElementById(`qty-${index}`).value) || 0;
-    let price = parseFloat(item["B Column"]) || 0;
+    let qty = parseInt(input.value) || 0;
+    let index = input.getAttribute("data-index");
 
     if (qty > 0) {
-      message += `${item["A Column"]} - ${qty} ${item["C Column"]} = ₹${qty * price}%0A`;
-      total += qty * price;
+
+      let itemName = products[index]["A Column"];
+      let price = parseFloat(products[index]["B Column"]);
+      let unit = products[index]["C Column"];
+
+      let itemTotal = qty * price;
+      total += itemTotal;
+
+      message += `${itemName} - ${qty} ${unit} = ₹${itemTotal}\n`;
     }
+
   });
 
-  message += `%0ATotal: ₹${total}`;
+  if (total === 0) {
+    alert("Please select at least one item.");
+    return;
+  }
 
-  window.open(`https://wa.me/919748016880?text=${message}`, "_blank");
+  message += `\nTotal Amount: ₹${total}`;
+
+  let phoneNumber = "919748016880"; // change if needed
+  let whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappURL, "_blank");
 }
+
 </script>
-
-
 
 </body>
 </html>
