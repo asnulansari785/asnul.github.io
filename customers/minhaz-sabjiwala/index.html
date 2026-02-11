@@ -74,6 +74,10 @@ body{
 
 <div class="section">🧺 Aaj ki Sabzi (Today’s Rate)</div>
 
+  <div class="card">
+  <ul id="rateList"></ul>
+</div>
+
 <div class="card">
   <div class="item"><span>🥔 Aloo (1kg)</span><strong>₹30</strong></div>
   <div class="item"><span>🧅 Pyaz (1kg)</span><strong>₹35</strong></div>
@@ -89,6 +93,21 @@ body{
 <div class="footer">
   <p>Daily fresh sabzi • Limited stock</p>
 </div>
+
+  <script>
+fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/Sheet1")
+.then(res => res.json())
+.then(data => {
+  let output = "";
+  data.forEach(item => {
+    output += `<li>${item.Item} – ₹${item.Price}/${item.Unit}</li>`;
+  });
+  document.getElementById("rateList").innerHTML = output;
+});
+</script>
+
+</body>
+</html>
 
 </body>
 </html>
