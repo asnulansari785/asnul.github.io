@@ -6,6 +6,26 @@
 <title>Minhaz Sabjiwala | Fresh Vegetables</title>
 
 <style>
+
+  table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:10px;
+  text-align:left;
+  border-bottom:1px solid #ddd;
+}
+
+th{
+  background:#e8f5e9;
+}
+
+tr:hover{
+  background:#f1f1f1;
+}
+
 body{
   margin:0;
   font-family:Arial, sans-serif;
@@ -75,7 +95,17 @@ body{
 <div class="section">🧺 Aaj ki Sabzi (Today’s Rate)</div>
 
   <div class="card">
-  <ul id="rateList"></ul>
+  <table id="rateTable">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
 
 <a class="btn" href="https://wa.me/919748016880">
@@ -91,15 +121,18 @@ fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/She
 .then(res => res.json())
 .then(data => {
   let output = "";
-
-  data.slice(1).forEach(item => {
-    output += `<li>${item["A Column"]} – ₹${item["B Column"]}/${item["C Column"]}</li>`;
+  data.forEach(item => {
+    output += `
+      <tr>
+        <td>${item["A Column"]}</td>
+        <td>₹${item["B Column"]}</td>
+        <td>${item["C Column"]}</td>
+      </tr>
+    `;
   });
-
-  document.getElementById("rateList").innerHTML = output;
+  document.querySelector("#rateTable tbody").innerHTML = output;
 });
 </script>
-
 
 </body>
 </html>
