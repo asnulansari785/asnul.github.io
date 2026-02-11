@@ -124,7 +124,6 @@ Total: ₹<span id="totalAmount">0</span>
 </div>
   
 <script>
-
 let sabziData = [];
 
 fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/Sheet1")
@@ -132,64 +131,65 @@ fetch("https://opensheet.elk.sh/1Yz6pWhhrMg97p_YadUTUBvJIEwLJdg_cbhIuAGvZhv8/She
 .then(data => {
 
   sabziData = data;
-  let tbody = document.querySelector("#rateTable tbody");
-  let output = "";
+  let tbody = "";
 
   data.forEach((item, index) => {
-    output += `
+
+    let price = parseFloat(item["B Column"]) || 0;
+
+    tbody += `
       <tr>
         <td>${item["A Column"]}</td>
-        <td>₹${item["B Column"]}</td>
+        <td>₹${price}</td>
         <td>${item["C Column"]}</td>
         <td>
           <input type="number" min="0" value="0"
-          oninput="calculateTotal()"
-          id="qty${index}" style="width:60px;">
+            onchange="calculateTotal()" 
+            id="qty-${index}" 
+            data-price="${price}" 
+            style="width:60px;">
         </td>
       </tr>
     `;
   });
 
-  tbody.innerHTML = output;
-
+  document.querySelector("#rateTable tbody").innerHTML = tbody;
 });
 
-function calculateTotal(){
+function calculateTotal() {
   let total = 0;
 
   sabziData.forEach((item, index) => {
-    let qty = parseFloat(document.getElementById("qty"+index).value) || 0;
-    let price = parseFloat(item["B Column"]);
+    let qty = parseFloat(document.getElementById(`qty-${index}`).value) || 0;
+    let price = parseFloat(item["B Column"]) || 0;
     total += qty * price;
   });
 
   document.getElementById("totalAmount").innerText = total;
 }
 
-function sendOrder(){
+function sendOrder() {
 
-  let message = "🛒 Order Details:%0A%0A";
+  let message = "Assalamu Alaikum, mujhe ye sabzi chahiye:%0A";
   let total = 0;
 
   sabziData.forEach((item, index) => {
-    let qty = parseFloat(document.getElementById("qty"+index).value) || 0;
 
-    if(qty > 0){
-      let price = parseFloat(item["B Column"]);
-      let itemTotal = qty * price;
-      total += itemTotal;
+    let qty = parseFloat(document.getElementById(`qty-${index}`).value) || 0;
+    let price = parseFloat(item["B Column"]) || 0;
 
-      message += `${item["A Column"]} - ${qty} ${item["C Column"]} - ₹${itemTotal}%0A`;
+    if (qty > 0) {
+      message += `${item["A Column"]} - ${qty} ${item["C Column"]} = ₹${qty * price}%0A`;
+      total += qty * price;
     }
   });
 
   message += `%0ATotal: ₹${total}`;
 
-  let phone = "919748016880";
-  window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+  window.open(`https://wa.me/919748016880?text=${message}`, "_blank");
 }
-
 </script>
+
 
 
 </body>
