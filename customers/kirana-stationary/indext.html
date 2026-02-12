@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirana Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h2>🛒 Rahman Kirana Store</h2>
+  <p>Fast Home Delivery</p>
+</header>
+
+<div class="container">
+
+  <h3>Select Category</h3>
+  <select id="categorySelect" onchange="loadProducts()">
+    <option value="">-- Choose Category --</option>
+    <option value="grocery">Grocery</option>
+    <option value="stationery">Stationery</option>
+  </select>
+
+  <div id="productList"></div>
+
+  <div class="cart">
+    <h3>Cart Total: ₹<span id="totalAmount">0</span></h3>
+    <button onclick="sendOrder()">Order on WhatsApp</button>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
