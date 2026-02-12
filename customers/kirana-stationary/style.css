@@ -45,3 +45,23 @@ button {
   border-radius:6px;
   font-size:16px;
 }
+
+.cart-item {
+  display:flex;
+  justify-content:space-between;
+  margin:6px 0;
+  padding:6px;
+  background:#f9f9f9;
+  border-radius:5px;
+}
+
+.qty-btn {
+  padding:4px 8px;
+  margin:0 4px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
