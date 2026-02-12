@@ -27,5 +27,74 @@ function loadProducts() {
       <div class="product">
         <strong>${item.name}</strong><br>
         ₹${item.price}<br>
-        <button class="qty-btn" onclick="changeQty('${item.id}', '${category}', -1)">-</button>
-        <button class="qty-btn" onclick
+
+        <button onclick="changeQty('${item.id}', '${category}', -1)">-</button>
+
+        <span id="qty-${item.id}">0</span>
+
+        <button onclick="changeQty('${item.id}', '${category}', 1)">+</button>
+      </div>
+    `;
+  });
+}
+
+function changeQty(id, category, amount) {
+
+  let item = products[category].find(p => p.id === id);
+
+  if(!cart[id]) {
+    cart[id] = {...item, qty: 0};
+  }
+
+  cart[id].qty += amount;
+
+  if(cart[id].qty <= 0){
+    delete cart[id];
+    document.getElementById("qty-"+id).innerText = 0;
+  } else {
+    document.getElementById("qty-"+id).innerText = cart[id].qty;
+  }
+
+  updateCart();
+}
+
+function updateCart() {
+
+  let cartContainer = document.getElementById("cartItems");
+  cartContainer.innerHTML = "";
+
+  let total = 0;
+
+  Object.values(cart).forEach(item => {
+
+    total += item.price * item.qty;
+
+    cartContainer.innerHTML += `
+      <div>
+        ${item.name} x ${item.qty} = ₹${item.price * item.qty}
+      </div>
+    `;
+  });
+
+  document.getElementById("totalAmount").innerText = total;
+}
+
+function sendOrder() {
+
+  if(Object.keys(cart).length === 0){
+    alert("Please select items first");
+    return;
+  }
+
+  let message = "Assalamualaikum\nMera order:\n\n";
+
+  Object.values(cart).forEach(item => {
+    message += ${item.name} x ${item.qty} = ₹${item.price * item.qty}\n;
+  });
+
+  message += \nTotal: ₹${document.getElementById("totalAmount").innerText};
+
+  let whatsappURL = "https://wa.me/919748016880?text=" + encodeURIComponent(message);
+
+  window.open(whatsappURL, "_blank");
+}
