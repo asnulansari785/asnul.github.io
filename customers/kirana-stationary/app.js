@@ -1,17 +1,17 @@
 let products = {
   grocery: [
-    {name:"Rice 1kg", price:60},
-    {name:"Sugar 1kg", price:50},
-    {name:"Oil 1L", price:120}
+    {id:"g1", name:"Rice 1kg", price:60},
+    {id:"g2", name:"Sugar 1kg", price:50},
+    {id:"g3", name:"Oil 1L", price:120}
   ],
   stationery: [
-    {name:"Notebook", price:40},
-    {name:"Pen", price:10},
-    {name:"Pencil", price:5}
+    {id:"s1", name:"Notebook", price:40},
+    {id:"s2", name:"Pen", price:10},
+    {id:"s3", name:"Pencil", price:5}
   ]
 };
 
-let cart = [];
+let cart = {};
 
 function loadProducts() {
 
@@ -21,30 +21,34 @@ function loadProducts() {
 
   if(!category) return;
 
-  products[category].forEach((item, index) => {
+  products[category].forEach((item) => {
 
     container.innerHTML += `
       <div class="product">
         <strong>${item.name}</strong><br>
         ₹${item.price}<br>
         <input type="number" min="0" value="0"
-          onchange="addToCart('${category}', ${index}, this.value)">
+          onchange="addToCart('${category}', '${item.id}', this.value)">
       </div>
     `;
   });
 }
 
-function addToCart(category, index, qty) {
+function addToCart(category, id, qty) {
 
   qty = parseInt(qty) || 0;
 
-  let product = products[category][index];
+  let product = products[category].find(p => p.id === id);
 
-  cart[index] = {
-    name: product.name,
-    price: product.price,
-    qty: qty
-  };
+  if(qty > 0){
+    cart[id] = {
+      name: product.name,
+      price: product.price,
+      qty: qty
+    };
+  } else {
+    delete cart[id];
+  }
 
   calculateTotal();
 }
@@ -53,10 +57,8 @@ function calculateTotal() {
 
   let total = 0;
 
-  cart.forEach(item => {
-    if(item && item.qty > 0) {
-      total += item.qty * item.price;
-    }
+  Object.values(cart).forEach(item => {
+    total += item.qty * item.price;
   });
 
   document.getElementById("totalAmount").innerText = total;
@@ -67,11 +69,9 @@ function sendOrder() {
   let message = "🛒 Order Details:\n\n";
   let total = 0;
 
-  cart.forEach(item => {
-    if(item && item.qty > 0) {
-      total += item.qty * item.price;
-      message += `${item.name} - ${item.qty} = ₹${item.qty * item.price}\n`;
-    }
+  Object.values(cart).forEach(item => {
+    total += item.qty * item.price;
+    message += `${item.name} - ${item.qty} = ₹${item.qty * item.price}\n`;
   });
 
   if(total === 0){
