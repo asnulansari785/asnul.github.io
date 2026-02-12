@@ -21,65 +21,11 @@ function loadProducts() {
 
   if(!category) return;
 
-  products[category].forEach((item) => {
+  products[category].forEach(item => {
 
     container.innerHTML += `
       <div class="product">
         <strong>${item.name}</strong><br>
         ₹${item.price}<br>
-        <input type="number" min="0" value="0"
-          onchange="addToCart('${category}', '${item.id}', this.value)">
-      </div>
-    `;
-  });
-}
-
-function addToCart(category, id, qty) {
-
-  qty = parseInt(qty) || 0;
-
-  let product = products[category].find(p => p.id === id);
-
-  if(qty > 0){
-    cart[id] = {
-      name: product.name,
-      price: product.price,
-      qty: qty
-    };
-  } else {
-    delete cart[id];
-  }
-
-  calculateTotal();
-}
-
-function calculateTotal() {
-
-  let total = 0;
-
-  Object.values(cart).forEach(item => {
-    total += item.qty * item.price;
-  });
-
-  document.getElementById("totalAmount").innerText = total;
-}
-
-function sendOrder() {
-
-  let message = "🛒 Order Details:\n\n";
-  let total = 0;
-
-  Object.values(cart).forEach(item => {
-    total += item.qty * item.price;
-    message += `${item.name} - ${item.qty} = ₹${item.qty * item.price}\n`;
-  });
-
-  if(total === 0){
-    alert("Please add items to cart");
-    return;
-  }
-
-  message += `\nTotal: ₹${total}`;
-
-  window.open("https://wa.me/919748016880?text=" + encodeURIComponent(message));
-}
+        <button class="qty-btn" onclick="changeQty('${item.id}', '${category}', -1)">-</button>
+        <button class="qty-btn" onclick
