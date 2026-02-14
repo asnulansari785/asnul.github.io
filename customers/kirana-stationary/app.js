@@ -36,22 +36,7 @@ onchange="setQty('${item.id}', '${category}', this.value)">
   });
 }
 
-function changeQty(id, category, amount) {
 
-  let item = products[category].find(p => p.id === id);
-
-  if(!cart[id]) {
-    cart[id] = {...item, qty: 0};
-  }
-
-  cart[id].qty += amount;
-
-  if(cart[id].qty <= 0){
-    delete cart[id];
-    document.getElementById("qty-"+id).innerText = 0;
-  } else {
-    document.getElementById("qty-"+id).innerText = cart[id].qty;
-  }
 
   updateCart();
 }
