@@ -89,10 +89,10 @@ function sendOrder() {
   let message = "Assalamualaikum\nMera order:\n\n";
 
   Object.values(cart).forEach(item => {
-    message += ${item.name} x ${item.qty} = ₹${item.price * item.qty}\n;
+    message += `${item.name} x ${item.qty} = ₹${item.price * item.qty}\n`;
   });
 
-  message += \nTotal: ₹${document.getElementById("totalAmount").innerText};
+  message += `\nTotal: ₹${document.getElementById("totalAmount").innerText}`;
 
   let whatsappURL = "https://wa.me/919748016880?text=" + encodeURIComponent(message);
 
