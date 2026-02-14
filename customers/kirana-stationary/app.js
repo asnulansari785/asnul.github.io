@@ -90,3 +90,6 @@ function sendOrder() {
 
   window.open(whatsappURL, "_blank");
 }
+window.onload = function() {
+  loadProducts();
+};
