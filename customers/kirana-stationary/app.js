@@ -28,11 +28,9 @@ function loadProducts() {
         <strong>${item.name}</strong><br>
         ₹${item.price}<br>
 
-        <button onclick="changeQty('${item.id}', '${category}', -1)">-</button>
+      <input type="number" min="0" value="0" 
+onchange="setQty('${item.id}', '${category}', this.value)">
 
-        <span id="qty-${item.id}">0</span>
-
-        <button onclick="changeQty('${item.id}', '${category}', 1)">+</button>
       </div>
     `;
   });
@@ -97,4 +95,18 @@ function sendOrder() {
   let whatsappURL = "https://wa.me/919748016880?text=" + encodeURIComponent(message);
 
   window.open(whatsappURL, "_blank");
+}
+
+function setQty(id, category, value){
+
+  let qty = parseInt(value);
+
+  if(qty <= 0){
+    delete cart[id];
+  } else {
+    let item = products[category].find(p => p.id === id);
+    cart[id] = {...item, qty: qty};
+  }
+
+  updateCart();
 }
